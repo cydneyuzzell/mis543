@@ -18,6 +18,8 @@ class Sender(BasicSender.BasicSender):
     def handle_response(self,response_packet):
         if Checksum.validate_checksum(response_packet):
             print("recv: %s" % response_packet)
+            mesg_type, ackno, data, checksum = self.split_packet(response_packet)
+            # print ("ackno: %s" % ackno)
         else:
             print("recv: %s <--- CHECKSUM FAILED" % response_packet)
 
@@ -47,6 +49,10 @@ class Sender(BasicSender.BasicSender):
             # 4. delay
             # add new functions as necessary
             response = self.receive()
+            #while response == None:
+             #   self.send(packet.encode())
+              #  response = self.receive(0.5)
+                
             resp_str = response.decode()
             self.handle_response(resp_str)
             ##### your code ends here ... #####
